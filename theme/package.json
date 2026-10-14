@@ -1,0 +1,26 @@
+{
+  "name": "win95-theme",
+  "displayName": "Windows 95",
+  "description": "Neutral gray panels, classic beveled controls, and navy captions and selections for Aseprite.",
+  "version": "1.0.1",
+  "author": {
+    "name": "increpare"
+  },
+  "license": "CC-BY-4.0",
+  "categories": [
+    "Themes"
+  ],
+  "contributes": {
+    "themes": [
+      {
+        "id": "win95",
+        "path": ".",
+        "variant": "Light"
+      }
+    ]
+  },
+  "repository": {
+    "url": "https://github.com/increpare/aseprite-win95-theme.git",
+    "type": "git"
+  }
+}

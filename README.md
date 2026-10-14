@@ -21,14 +21,16 @@ screen scaling if you prefer larger controls. Existing font overrides in
 Preferences take precedence. The outer operating-system window caption is not
 controlled by the theme.
 
-Developed against Aseprite 1.3.18.6 on Windows. Other platforms and versions have
-not been verified. The latest panel-color correction has been checked against
-the native theme definitions; a complete visual check across display scales is
-still pending.
+Developed against Aseprite 1.3.18.6 on Windows. The neutral panel colors and
+document tabs were visually checked at 100% screen scaling, including switching
+between two open documents. Other platforms, versions, and the full range of
+display scales have not been verified.
 
 ## Design
 
 - Panels, toolbars, dock separators, and tabs are neutral gray.
+- Document tabs have clipped top corners and open bottom edges. The active tab
+  joins the panel below; inactive tabs sit two pixels lower behind the page seam.
 - White recessed surfaces indicate fields and lists; the canvas surround is darker gray.
 - Navy marks captions and selections, rather than filling arbitrary panels.
 - Bevels, dithered toggle faces, and dotted focus indicators distinguish control states.

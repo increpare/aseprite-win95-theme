@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.0.2
+
+- Shape document tabs as page dividers with clipped top corners and open bottom edges.
+- Join the active tab to the panel below by interrupting the horizontal seam.
+- Lower inactive tabs by two pixels and retain their darker gray face.
+- Keep existing document switching, close controls, and drag behavior.
+
 ## 1.0.1
 
 - Use neutral gray for panel fills, toolbars, dock separators, and document tabs.

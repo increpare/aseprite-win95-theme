@@ -97,7 +97,7 @@ function Paint-Part($part, [string]$kind, [Drawing.Color]$fill) {
         for ($xx=0; $xx -lt $w; $xx++) {
             $c=$fill
             if ($kind -eq 'checker' -and ($xx+$yy)%2 -eq 0) { $c=$white }
-            if ($kind -in @('raised','focus','sunken','latched','latchedfocus','window','tab','check','checked')) {
+            if ($kind -in @('raised','focus','sunken','latched','latchedfocus','window','check','checked')) {
                 $tl1=$white; $tl2=$light; $br1=$black; $br2=$shadow
                 if ($kind -in @('sunken','latched','latchedfocus','check','checked')) { $tl1=$shadow; $tl2=$black; $br1=$white; $br2=$light }
                 if ($kind -in @('latched','latchedfocus') -and ($xx+$yy)%2 -eq 0) { $c=$white }
@@ -123,6 +123,31 @@ function Paint-Part($part, [string]$kind, [Drawing.Color]$fill) {
             }
             if ($kind -eq 'horizontal') { if ($yy -eq 2) {$c=$shadow}; if ($yy -eq 3) {$c=$white} }
             if ($kind -eq 'vertical') { if ($xx -eq 2) {$c=$shadow}; if ($xx -eq 3) {$c=$white} }
+            # Document tabs are open-bottom page dividers, not four-sided
+            # push buttons. Inactive tabs sit two pixels below the active tab.
+            if ($kind -in @('tabactive','tabinactive')) {
+                $top=0; if ($kind -eq 'tabinactive') { $top=2 }
+                $c=$face
+                if ($yy -ge $top+2) {
+                    $c=$fill
+                    if ($xx -eq 0) { $c=$white }
+                    if ($xx -eq 1) { $c=$light }
+                    if ($xx -eq $w-2) { $c=$shadow }
+                    if ($xx -eq $w-1) { $c=$black }
+                }
+                if ($yy -eq $top -and $xx -ge 2 -and $xx -le $w-3) { $c=$white }
+                if ($yy -eq $top+1) {
+                    if ($xx -eq 1) { $c=$white }
+                    if ($xx -ge 2 -and $xx -le $w-3) { $c=$light }
+                    if ($xx -eq $w-2) { $c=$black }
+                }
+            }
+            # The page seam runs under inactive tabs and empty strip only.
+            # The active tab interrupts it to connect with the panel below.
+            if ($kind -eq 'tabseam') {
+                if ($yy -eq 0) { $c=$white }
+                if ($yy -eq 1) { $c=$light }
+            }
             $atlas.SetPixel($px+$xx,$py+$yy,$c)
         }
     }
@@ -152,10 +177,12 @@ foreach ($part in $theme.theme.parts.part) {
     elseif ($id -match '^(mini_|transparent_)?scrollbar_bg') { Paint-Part $part 'checker' $face }
     elseif ($id -match '^(mini_|transparent_)?scrollbar_thumb') { Paint-Part $part 'raised' $face }
     elseif ($id -in @('tab_normal','tab_active')) {
-        $fill=Color 'b0b0b0'; if ($id -eq 'tab_active') { $fill=$face }
-        Paint-Part $part 'tab' $fill
+        $fill=Color 'b0b0b0'; $kind='tabinactive'
+        if ($id -eq 'tab_active') { $fill=$face; $kind='tabactive' }
+        Paint-Part $part $kind $fill
     }
-    elseif ($id -match '^tab_bottom|^tab_filler') { Paint-Part $part 'flat' $face }
+    elseif ($id -eq 'tab_bottom_normal') { Paint-Part $part 'tabseam' $face }
+    elseif ($id -in @('tab_bottom_active','tab_filler')) { Paint-Part $part 'flat' $face }
     elseif ($id -match '^tab_icon_bg') { Paint-Part $part 'raised' $face }
     elseif ($id -match '^editor_(normal|selected)$') { Paint-Part $part 'sunken' $shadow }
     elseif ($id -eq 'separator_horz') { Paint-Part $part 'horizontal' $face }

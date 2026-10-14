@@ -1,6 +1,8 @@
 # Windows 95-inspired theme for Aseprite (vibe-coded)
 
-<img width="2560" height="1393" alt="image" src="https://github.com/user-attachments/assets/85a7a149-cf77-4d73-b425-9c16da509773" />
+<img width="2560" height="1440" alt="image" src="https://github.com/user-attachments/assets/17a0a065-5bae-4109-9547-587a9bc1b945" />
+
+
 
 A native Aseprite theme with silver panels, crisp bevels, recessed white fields,
 classic gray tabs, and navy captions and selections. Tools and keyboard
